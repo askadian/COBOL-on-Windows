@@ -1,0 +1,108 @@
+
+
+
+01 JSON.
+   05 JSON-VAL OCCURS 100 TIMES.
+      10 JSON-FLD-NAME   PIC X(100).
+	  10 JSON-FLD-TYPE   PIC 9(02).
+	  10 JSON-FLD-POSN   PIC S9(09) COMP-3.
+	  10 JSON-FLD-LEN    PIC S9(09) COMP-3.
+	  10 JSON-FLD-PTR    USAGE IS POINTER.
+	  10 JSON-FLD-VAL    
+	  
+	  
+{"name": "Amresh Kadian", "age": 34, "dob": {"year": 1981,"month": 10, "date": 15}}
+{
+	"name": "Amresh Kadian", 
+	"age": 34, 
+	"dob": {
+			"year": 1981,
+			"month": 10, 
+			"date": 15
+			}
+}
+
+POSITION: 3; TYPE: string;
+
+
+OBJECT-START
+OBJECT-END
+
+TOKEN-START
+TOKEN-END
+TOKEN-TYPE
+
+KEY-START
+KEY-END
+
+VALUE-START
+VALUE-END
+
+01 JSON.
+   05 OBJECT-COUNT.
+   05 OBJECT.
+      10 OBJECT-START
+      10 OBJECT-END
+	  10 TOKEN-COUNT
+      10 TOKEN.
+		 15 TOKEN-START
+         15 TOKEN-END
+         15 TOKEN-TYPE [OBJECT, STRING, NUMERIC]
+	     15 KEY.
+			20 KEY-START
+            20 KEY-END
+			20 KEY-DATA
+		 15 VAL.
+		    20 VALUE-START
+            20 VALUE-END
+			20 VAL-DATA
+
+
+SWITCHES:
+---------
+READ-SWITCH 
+    READING-KEY
+	READING-VAL
+	
+EVALUATE WS-JSON-CHAR(WS-JSON-IDX)
+
+	WHEN WS-OPENING-BRACES
+		PERFORM OPEN-OBJECT
+	WHEN WS-CLOSING-BRACES
+		PERFORM CLOSE-OBJECT
+	WHEN WS-QUOTE
+		PERFORM PROCESS-KEY
+	WHEN WS-COLON
+		PERFORM PERFORM-VALUE
+	WHEN WS-COMMA
+		PERFORM PROCESS-TOKEN
+	WHEN SPACE
+		PERFORM PROCESS-SKIP
+	WHEN OTHER
+		PERFROM PROCESS-OTHER
+
+END-EVALUATE.
+
+once the data is got into the array...we need to find a way to
+access the elements of this array....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
